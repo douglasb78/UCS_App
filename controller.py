@@ -19,6 +19,7 @@ class UCS_Client():
         self.session = requests.Session()
     def __delay(self):
         delay = random.uniform(0.5, 1.0)
+        delay = 0
         time.sleep(delay)
     def get(self, url, **kwargs):
         self.__delay()
@@ -67,6 +68,17 @@ class UCS_Client():
             f"{segmento}/ambientes/?com_cache=false"
         )
         return self.get(url).json()
+    def get_docentes_nome(self, ambiente):
+        lista_participantes = self.get_participantes("graduacao", ambiente["url"])
+        nome = ""
+        for professor in lista_participantes[0]["participantes"]:
+            if nome:
+                nome += ", "
+            nome += professor["nome_pessoa"]
+        return nome
+    def get_numero_alunos_ambiente(self, ambiente):
+        lista_participantes = self.get_participantes("graduacao", ambiente["url"])
+        return len(lista_participantes[1]["participantes"])
     def get_participantes(self, segmento, ambiente):
         url = (
             f"{self.api_url}/v1/ambientes/segmentos/"

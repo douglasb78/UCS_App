@@ -7,6 +7,7 @@ class ScreenLogin:
     def __init__(self, cliente: UCS_Client):
         # Cliente
         self.cliente = cliente
+        self.resultado = None
 
         # Janela
         self.janela = tk.Tk()
@@ -37,7 +38,7 @@ class ScreenLogin:
 
         self.cliente.set_login_details(usuario, senha)
         try:
-            resultado = self.cliente.login()
+            self.resultado = self.cliente.login()
             messagebox.showinfo("Sucesso", "Login realizado com sucesso!")
             self.janela.destroy()  # Fecha a janela
         except Exception as err:
@@ -47,3 +48,4 @@ class ScreenLogin:
             self.entry_senha.focus()
     def executar(self):
         self.janela.mainloop()
+        return self.resultado
