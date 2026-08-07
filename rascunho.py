@@ -8,8 +8,8 @@ client = UCS_Client()
 client.set_login_details(os.getenv("USERNAME"), os.getenv("PASSWORD"))
 client.login()
 
-segmentos = client.get_segmentos()
-print(segmentos)
+#segmentos = client.get_segmentos()
+#print(segmentos)
 ambientes = client.get_ambientes("graduacao")
 print(ambientes)
 
@@ -25,7 +25,6 @@ participantes = client.get_participantes(
     "20264FBX4039A",
 )
 print(participantes)
-exit()
 for grupo in participantes:
     print(grupo["grupo"]["descricao"])
 
@@ -34,3 +33,4 @@ for grupo in participantes:
         print("  ", pessoa["username"], "@ucs.br")
         print("  ", pessoa["foto"])
         print("  ", pessoa["codigo_pessoa"])
+exit()

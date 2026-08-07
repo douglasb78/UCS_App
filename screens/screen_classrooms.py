@@ -5,6 +5,8 @@ from tkinter import ttk
 from controller import UCS_Client
 from dotenv import load_dotenv
 
+from screens.screen_participants import ScreenParticipants
+
 
 class ScreenClassrooms:
     def __init__(self, client: UCS_Client):
@@ -62,6 +64,7 @@ class ScreenClassrooms:
             for turma in semestre["itens"]:
                 tree.insert("", tk.END, values=(
                     turma["codigo"],
+                    turma["url"],
                     turma["nome"],
                     turma["horarios"],
                     self.client.get_docentes_nome(turma),
@@ -79,6 +82,7 @@ class ScreenClassrooms:
     def criar_tabela(self, parent):
         colunas = (
             "codigo",
+            "url",
             "nome",
             "horarios",
             "professor",
@@ -93,12 +97,14 @@ class ScreenClassrooms:
         )
 
         tree.heading("codigo", text="Código")
+        tree.heading("url", text="ID")
         tree.heading("nome", text="Nome da Disciplina")
         tree.heading("horarios", text="Horário")
         tree.heading("professor", text="Professor")
         tree.heading("numero_alunos", text="Número de Colegas")
 
         tree.column("codigo", width=120, anchor="center")
+        tree.column("url", width=120, anchor="center")
         tree.column("nome", width=350)
         tree.column("horarios", width=90, anchor="center")
         tree.column("professor", width=220)
@@ -116,11 +122,12 @@ class ScreenClassrooms:
             return
 
         dados = tree.item(item)["values"]
+        print(dados)
+        codigo = dados[1]
 
-        codigo = dados[0]
-        disciplina = dados[1]
+        print(f"Abrir turma: {codigo}")
+        janela_participantes = ScreenParticipants(client=self.client,codigo_disciplina=codigo)
 
-        print(f"Abrir turma: {codigo} - {disciplina}")
 
     def desconectar(self):
         self.janela.destroy()

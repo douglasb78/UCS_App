@@ -27,6 +27,28 @@ class UCS_Client():
     def post(self, url, **kwargs):
         self.__delay()
         return self.session.post(url, **kwargs)
+
+    def request_photo(self, url, **kwargs):
+        self.__delay()
+
+        # Headers padrão de imagem (como <img src>)
+        default_headers = {
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36",
+            "Accept": "image/avif,image/webp,image/apng,image/svg+xml,image/*,*/*;q=0.8",
+            "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8,en;q=0.7",
+            "Sec-Fetch-Dest": "image",
+            "Sec-Fetch-Mode": "no-cors",
+            "Sec-Fetch-Site": "cross-site",
+            "Referer": "https://www.google.com/",  # mude se quiser
+        }
+
+        # Pega os headers que o usuário passou (se passou)
+        headers = kwargs.pop("headers", {})
+
+        # Junta os headers (os que o usuário passou têm prioridade)
+        final_headers = {**default_headers, **headers}
+
+        return self.session.get(url, headers=final_headers, **kwargs)
     def login(self):
         url = f"{self.nephalem_url}/auth-token/api-token-auth/"
         payload = {
@@ -86,4 +108,3 @@ class UCS_Client():
             "ferramentas/listagem-participantes/"
         )
         return self.get(url).json()
-
