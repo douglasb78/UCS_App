@@ -30,7 +30,7 @@ for grupo in participantes:
 
     for pessoa in grupo["participantes"]:
         print("  ", pessoa["nome_pessoa"])
-        print("  ", pessoa["username"], "@ucs.br")
+        print("  ", f"{pessoa["username"]}@ucs.br")
         print("  ", pessoa["foto"])
         print("  ", pessoa["codigo_pessoa"])
 exit()

@@ -19,7 +19,6 @@ class UCS_Client():
         self.session = requests.Session()
     def __delay(self):
         delay = random.uniform(0.5, 1.0)
-        delay = 0
         time.sleep(delay)
     def get(self, url, **kwargs):
         self.__delay()
@@ -39,13 +38,10 @@ class UCS_Client():
             "Sec-Fetch-Dest": "image",
             "Sec-Fetch-Mode": "no-cors",
             "Sec-Fetch-Site": "cross-site",
-            "Referer": "https://www.google.com/",  # mude se quiser
+            "Referer": "https://www.ucsvirtual.ucs.br/",
         }
 
-        # Pega os headers que o usuário passou (se passou)
         headers = kwargs.pop("headers", {})
-
-        # Junta os headers (os que o usuário passou têm prioridade)
         final_headers = {**default_headers, **headers}
 
         return self.session.get(url, headers=final_headers, **kwargs)
